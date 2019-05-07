@@ -1,0 +1,6 @@
+1，[self class],[super class]
+
+```
+  NSLog(@"self ' class is %@", [self class]);
+  NSLog(@"super' class is %@", [super class]);
+```
