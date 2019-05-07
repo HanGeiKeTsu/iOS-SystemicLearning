@@ -21,7 +21,7 @@ struct objc_super {
 第一个成员变量就是self, 第二个成员变量是父类Father，然后要找class这个selector，先去superClass也就是Father中去找，没有，然后去Father 的父类中去找，结果还是在NSObject中找到了。然后内部使用函数objc_msgSend(objc_super->receiver, @selector(class)) 去调用，此时已经和我们用[self class]调用时相同了
 
 
-需回顾runtime相关知识点， 待补充
+runtime 知识点回顾 https://www.jianshu.com/p/6ebda3cd8052
 
 
  
