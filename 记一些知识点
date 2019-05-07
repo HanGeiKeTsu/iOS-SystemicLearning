@@ -1,6 +1,27 @@
+
 1，[self class],[super class]
 
-```
+  子类继承自父类，输出下方内容
   NSLog(@"self ' class is %@", [self class]);
   NSLog(@"super' class is %@", [super class]);
-```
+  
+  打印结果都为子类
+  
+上述两个函数调用在runtime的本质实现为
+ id objc_msgSend(id theReceiver, SEL theSelector, ...)
+ id objc_msgSendSuper(struct objc_super *super, SEL op, ...)
+ 
+ 第一个很好理解，向消息接受者发送一个方法编号， 向self即子类对象发送 class方法，然后在子类的结构体方法列表查找该方法，查找不到向父类查找，由于在子类和父类都没有实现class方法，就向上一级父类 NSObject 中查找，找到class方法，发送给子类对象实现，
+ 
+第二个 objc_msgSendSuper函数中存在一个 objc_super结构体
+struct objc_super {
+  id receiver;
+  Class superClass;
+};
+第一个成员变量就是self, 第二个成员变量是父类Father，然后要找class这个selector，先去superClass也就是Father中去找，没有，然后去Father 的父类中去找，结果还是在NSObject中找到了。然后内部使用函数objc_msgSend(objc_super->receiver, @selector(class)) 去调用，此时已经和我们用[self class]调用时相同了
+
+
+需回顾runtime相关知识点， 待补充
+
+
+ 
